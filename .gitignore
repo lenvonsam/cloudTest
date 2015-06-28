@@ -1,5 +1,8 @@
-*~
-.*.swp
-node_modules/
-start.sh
-.avoscloud/
+.avoscloud
+.DS_Store
+.scssc
+.class
+.sass-cache
+node_modules
+public/lib
+
