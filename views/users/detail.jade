@@ -1,0 +1,20 @@
+extends ../layout
+block content
+	body.main-container
+		.container-fluid
+			.error-info.font-normal #{errMsg}
+			.row
+				p.bg-success 详细资料
+			.row.bg-white
+				.col-xs-2
+					span 标题:
+				.col-xs-10
+					span #{detailTitle}
+			.row.bg-white
+				.col-xs-2
+					span 时间:
+				.col-xs-10
+					span #{detailTime}
+			.row.bg-white
+				.col-xs-12.col-md-12
+					span #{detailContent}

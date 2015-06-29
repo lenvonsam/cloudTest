@@ -1,19 +1,20 @@
 extends ../layout
 
 block content
-  h1= title
-  
-  #errMsg
-    if errMsg
-      pre= errMsg
-
-  form.form-horizontal(action='/users/login', method='POST')
-    .form-group
-      label.col-sm-2.control-label 用户名
-      .col-sm-10: input(type='input', name='username')
-    .form-group
-      label.col-sm-2.control-label 密码
-      .col-sm-10: input(type='password', name='password')
-    .col-sm-offset-2.col-sm-10
-      input.btn.btn-default(type='submit', value='登录')
-      a.btn.btn-default(href="/users/register") 注册
+	body.login_page 
+		.login-wrapper
+			.login.loginpage.col-md-6.col-md-offset-3.col-xs-10.col-xs-offset-1.mt-30
+				form(action='/users/login',method='post',enctype="multipart/form-data")
+					.form-group
+						label.form-group 手机号
+						.controls
+							input.form-control(name='user[MobileNo]') 
+					.form-group
+						label.form-group 密  码
+						.controls
+							input.form-control(type='password',name='user[LoginPwd]')
+							input(type='hidden',name='user[UserTypeID]',value='#{UserTypeID}')
+							input(type='hidden',name='user[SchoolID]',value='0')
+							.error-info.font-normal #{errMsg}
+					p.mt-40
+						input.btn.btn-warning.btn-corner.btn-block(type='submit',value='登录')

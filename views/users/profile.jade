@@ -1,0 +1,33 @@
+extends ../layout
+block content
+	body.main-container
+		.container-fluid
+			//- .row
+			//- 	ol.breadcrumb
+			//- 		li
+			//- 			a(href='/users/index')
+			//- 				i.fa.fa-home
+			//- 				| 主页
+			//- 		li
+			//- 			a(href='javascript:(0)') 个人资料
+			.row
+				form.wid-uprofile.bg-warning
+					.wid-uprofile-image
+						img.img-responsive.img-circle(src="/static/images/head.png")
+					.uprofile-name		
+						h3
+							a(href='#') #{username}
+							p.uprofile-title #{userSubType}
+					.uprofile-info
+						ul.list-unstyled
+							li
+								i.fa.fa-phone
+								| #{mobile}
+							li
+								i.fa.fa-university
+								| #{schoolName}
+					//- .uprofile-social
+					//- 	button.btn.btn-orange(style="color:white !important;") 修改
+					//- 	button.btn.btn-orange(style="color:white !important;") 更新
+
+

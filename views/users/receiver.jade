@@ -1,0 +1,27 @@
+extends ../layout
+block content
+	body.main-container
+		.container-fluid
+			.row
+				p.bg-success 收件箱
+			.row
+				table.table.table-striped
+					thead
+						th 标题
+						th 日期
+						th 详情
+					tbody
+					each n in noticeList
+						tr
+							td #{n.NoticeTitle}
+							td #{n.SendTime}
+							td 
+								a(href='/users/detail?noticeId=#{n.NoticeID}') 详情
+			.row
+				nav
+					ul.pager
+						li
+							a(href='/users/receiver?currentPage=#{prePage}') 上一页
+						li.ml-10
+							a(href='/users/receiver?currentPage=#{nextPage}') 下一页
+						

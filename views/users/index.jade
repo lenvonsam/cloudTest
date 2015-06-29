@@ -1,0 +1,41 @@
+extends ../layout
+block content
+	body.main-container
+		.container-fluid
+			.row
+				.dropdown.pull-right
+					button.btn.btn-default.dropdown-toggle(data-toggle="dropdown",aria-expanded="true")
+						img.img-circle.img-inline.img-thumbnail.mr-5(src="/static/images/head.png",style='width:35px;')
+						| #{UserName}
+						span.caret.ml-5
+					ul#homeDropDownMenu.dropdown-menu(role="menu")
+						li(role="presentation")
+							a(role="menuitem",tabindex="-1",href="/users/profile") 编辑资料
+			.row.mt-10
+				.panel-group(role="tablist",aria-multiselectable="true")
+					.panel.panel-default
+						.panel-heading(role="tab")
+							h4.panel-title
+								a(data-toggle="collapse",data-parent="#accordion",href="#collapseOne",aria-expanded="false",aria-controllers="collapseOne")
+									| 最新公告
+						#collapseOne.panel-collapse.collapse.in(role="tabpanel",aria-labelledby="headingOne")
+							.panel-body
+								| 无公告
+					.panel.panle-default
+						.panel-heading(role="tab")
+							h4.panel-title
+								a(data-toggle="collapse",data-parent="#accordion",href="#collapseTwo",aria-expanded="false",aria-controllers="collapseTwo")
+									| 最新考勤
+						#collapseTwo.panel-collapse.collapse(role="tabpanel",aria-labelledby="headingTwo",aria-expanded="false")
+							.panel-body
+								table.table
+									thead
+										th 考勤日期
+										th 刷卡记录
+									tbody
+									each k in kList
+										tr
+											td=k.CheckinDate
+											td=k.CheckinRecord
+
+
