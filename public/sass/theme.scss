@@ -1,0 +1,40 @@
+@charset "utf-8";
+@import "config";
+
+@each $val in $scu-margins {
+	.mt-#{$val} {
+		margin-top: #{$val}px !important;
+	}
+	.ml-#{$val} {
+		margin-left:#{$val}px !important;
+	}
+	.mb-#{$val} {
+		margin-bottom:#{$val}px !important;
+	}
+	.mr-#{$val} {
+		margin-right:#{$val}px !important;
+	}
+}
+
+.btn {
+	width:100px !important; 
+
+
+}
+
+button,a {
+	color:$word-c !important;
+}
+
+a {
+	text-decoration:none !important;
+	&:hover {
+		text-decoration:none !important;
+	}
+}
+
+.btn.btn-primary {
+	background:white !important;
+}
+
+

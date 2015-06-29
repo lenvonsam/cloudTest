@@ -1,0 +1,37 @@
+@charset "utf-8";
+@import "config";
+
+.error-info {
+	color:$red;
+}
+
+.font-sx {
+	font-size:$font-sx;
+}
+
+.font-small {
+	font-size:$font-small;
+}
+
+.font-normal {
+	font-size:$font-normal;
+}
+
+.font-large {
+	font-size:$font-large;
+}
+
+.main-container {
+	background-color:$bg !important;
+	height:100% !important;
+	min-height:99% !important; 
+	overflow: hidden !important;
+	background-attachment: fixed;
+}
+
+#homeDropDownMenu{
+	min-width:100px !important;
+}
+.bg-white {
+	background:white !important;
+}
