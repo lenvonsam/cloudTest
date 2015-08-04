@@ -4,14 +4,15 @@ var router = express.Router();
 
 
 router.get('/login', function(req, res, next) {
-  var UserTypeID = req.query.UserTypeID;
-  if(UserTypeID == undefined) {
-    res.render('users/login',{title:'用户登录',errMsg:'地址不正确',UserTypeID:''});
-  } else {
-    res.cookie('userTypeId',UserTypeID,{maxAge:3600000});
-    res.cookie('pageIndex',"0",{maxAge:600000});
+  // var UserTypeID = req.query.UserTypeID;
+  // if(UserTypeID == undefined) {
+  //   res.render('users/login',{title:'用户登录',errMsg:'地址不正确',UserTypeID:''});
+  // } else {
+    // res.cookie('userTypeId',UserTypeID,{maxAge:3600000});
+    // res.cookie('pageIndex',"0",{maxAge:600000});
+   var UserTypeID = '';
     res.render('users/login', {title: '用户登录', errMsg: '',UserTypeID:UserTypeID});
-  }
+  // }
 });
 
 router.post('/login', function(req, res, next) {

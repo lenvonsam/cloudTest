@@ -1,5 +1,7 @@
 extends ../layout
 
+append js 
+	script(src="/static/js/user.js")
 block content
 	body.login_page 
 		.login-wrapper
@@ -13,8 +15,14 @@ block content
 						label.form-group 密  码
 						.controls
 							input.form-control(type='password',name='user[LoginPwd]')
-							input(type='hidden',name='user[UserTypeID]',value='#{UserTypeID}')
 							input(type='hidden',name='user[SchoolID]',value='0')
+					.form-group
+						label.form-group 种  类
+						.controls
+							select.form-control(type='user[UserTypeID]')
+								option(value="1") 教师 
+								option(value="2") 学生
+
 							.error-info.font-normal #{errMsg}
 					p.mt-40
 						input.btn.btn-warning.btn-corner.btn-block(type='submit',value='登录')
