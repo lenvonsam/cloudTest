@@ -10,14 +10,13 @@ router.get('/login', function(req, res, next) {
   // } else {
     // res.cookie('userTypeId',UserTypeID,{maxAge:3600000});
     // res.cookie('pageIndex',"0",{maxAge:600000});
-   var UserTypeID = '';
-    res.render('users/login', {title: '用户登录', errMsg: '',UserTypeID:UserTypeID});
+    res.render('users/login', {title: '用户登录', errMsg: ''});
   // }
 });
 
 router.post('/login', function(req, res, next) {
   var usr = req.body.user;
-  var userTypeID = req.cookies.userTypeId;
+  var userTypeID = usr.UserTypeID;
   var pageIndex = req.cookies.pageIndex;
   console.log('user.moblie:'+usr.MobileNo+';password:'+usr.LoginPwd+";userType:"+usr.UserTypeID+";default value:"+usr.SchoolID);
   if(usr.MobileNo == undefined) {
@@ -56,6 +55,7 @@ router.post('/login', function(req, res, next) {
         res.cookie('GroupID',responseResult.GroupID,{maxAge:3600000});
         res.cookie('SchoolName',responseResult.SchoolName,{maxAge:3600000});
         res.cookie('UserSubTypeID',responseResult.UserSubTypeID,{maxAge:3600000});
+
         console.log('url:'+url);
         res.redirect(url);
         // res.render('users/index',{title:'主页',errMsg:''});
@@ -105,13 +105,12 @@ router.get('/myAttendance',function(req,res,next){
   res.cookie('pageIndex',"1",{maxAge:600000});
   var LoginID = req.cookies.LoginID;
   if(LoginID == undefined) {
-    var userTypeId = req.cookies.userTypeId;
-    if(userTypeId == undefined) {
-      res.redirect('pageNotFound'); 
-    } else {
-      var url = "/users/login?UserTypeID="+userTypeId;
-      res.redirect(url);
-    }
+    // var userTypeId = req.cookies.userTypeId;
+    // if(userTypeId == undefined) {
+    //   res.redirect('pageNotFound'); 
+    // } else {
+      res.redirect("/users/login");
+    // }
   } else {
     AV.Cloud.httpRequest({
       url:'http://218.93.126.104:5657/Checkin/?',
@@ -150,13 +149,13 @@ router.get('/receiver',function(req,res,next){
   res.cookie('pageIndex',"2",{maxAge:600000});
   var LoginID = req.cookies.LoginID;
   if(LoginID==undefined){
-    var userTypeId = req.cookies.userTypeId;
-    if(userTypeId == undefined) {
-      res.redirect('pageNotFound'); 
-    } else {
-      var url = "/users/login?UserTypeID="+userTypeId;
-      res.redirect(url);
-    }
+    // var userTypeId = req.cookies.userTypeId;
+    // if(userTypeId == undefined) {
+    //   res.redirect('pageNotFound'); 
+    // } else {
+    //   var url = "/users/login?UserTypeID="+userTypeId;
+      res.redirect("/users/login");
+    // }
   } else {
     AV.Cloud.httpRequest({
       url:"http://218.93.126.104:5657/Message/Inbox/?",
@@ -207,13 +206,13 @@ router.get('/sender',function(req,res,next){
   res.cookie('pageIndex',"3",{maxAge:600000});
     var LoginID = req.cookies.LoginID;
   if(LoginID==undefined){
-    var userTypeId = req.cookies.userTypeId;
-    if(userTypeId == undefined) {
-      res.redirect('pageNotFound'); 
-    } else {
-      var url = "/users/login?UserTypeID="+userTypeId;
-      res.redirect(url);
-    }
+    // var userTypeId = req.cookies.userTypeId;
+    // if(userTypeId == undefined) {
+    //   res.redirect('pageNotFound'); 
+    // } else {
+      // var url = "/users/login?UserTypeID="+userTypeId;
+      res.redirect("/users/login");
+    // }
   } else {
     AV.Cloud.httpRequest({
       url:"http://218.93.126.104:5657/Message/Outbox/?",
@@ -264,13 +263,13 @@ router.get('/detail',function(req,res,next){
   var noticeId = req.query.noticeId;
   var LoginID = req.cookies.LoginID;
   if(LoginID==undefined){
-    var userTypeId = req.cookies.userTypeId;
-    if(userTypeId == undefined) {
-      res.redirect('pageNotFound'); 
-    } else {
-      var url = "/users/login?UserTypeID="+userTypeId;
-      res.redirect(url);
-    }
+    // var userTypeId = req.cookies.userTypeId;
+    // if(userTypeId == undefined) {
+    //   res.redirect('pageNotFound'); 
+    // } else {
+    //   var url = "/users/login?UserTypeID="+userTypeId;
+      res.redirect("/users/login");
+    // }
   } else {
     AV.Cloud.httpRequest({
       url:'http://218.93.126.104:5657/Message/Detail/?',
@@ -299,6 +298,93 @@ router.get('/detail',function(req,res,next){
   }
 
 });
+
+//发布公告列表
+router.get('/notice',function(req,res,next){
+  res.cookie('pageIndex',"4",{maxAge:600000});
+  var LoginID = req.cookies.LoginID;
+  if(LoginID == undefined) {
+      res.redirect("/users/login");
+  } else {
+    var UserSubTypeID = req.cookies.UserSubTypeID; //用户权限
+    res.render('users/notice',{title:'发布公告',errMsg:'',userSubType:UserSubTypeID});
+  }
+  
+});
+
+//发布公告
+router.post('/notice',function(req,res,next){
+  var LoginID = req.cookies.LoginID;
+  res.cookie('pageIndex',"5",{maxAge:600000});
+  if(LoginID == undefined) {
+    res.redirect("/users/login");
+  } else {
+    var usr = req.body.user;
+    console.log('user:'+JSON.stringify(usr));
+    if(usr.content == undefined || usr.title == undefined) {
+      res.render('users/noticeDetail',{title:'公告内容',errMsg:'字段不能为空',listOrder:usr.listOrder})
+    } else {
+      console.log('content:'+usr.content+";title:"+usr.title+";listOrder:"+usr.listOrder);
+      var params = {};
+      params.LoginID = req.cookies.LoginID;
+      params.UserName = req.cookies.UserName;
+      params.Title = usr.title;
+      params.Content = usr.content;
+      var url = "";
+      var listOrder = usr.listOrder;
+      if(listOrder == 1) {
+        url = "http://218.93.126.104:5657/Message/Send/Class/?";
+        params.ClassID = req.cookies.ClassID;
+      } else if (listOrder == 2) {
+        url = "http://218.93.126.104:5657/Message/Send/Grade/?";
+        params.GradeID = req.cookies.GradeID;
+      } else {
+        url = "http://218.93.126.104:5657/Message/Send/School/?";
+        params.SchoolID = req.cookies.SchoolID;
+      }
+
+      AV.Cloud.httpRequest({
+      url: url,
+      params: params,
+      success:function(data){
+        var jsonResult = JSON.parse(data.text);
+        console.log('notice jsonResult:'+JSON.stringify(jsonResult));
+        var code = jsonResult.code.type;
+        if(code == 0) {
+          res.render('users/noticeResult',{title:'发布结果',errMsg:'发布成功'});
+        } else {
+          res.render('users/noticeResult',{title:'发布结果',errMsg:'发布失败'});
+        }
+      },error:function(data){
+        // res.render('users/detail',{title:'详细资料',errMsg:'网络异常'});
+        console.log('notice error:')        
+        res.render('users/noticeResult',{title:'发布结果',errMsg:'网络异常'});
+      }
+    });
+    }
+  }
+
+
+});
+
+//填写公告内容界面
+router.get('/noticeShow',function(req,res,next){
+  res.cookie('pageIndex',"4",{maxAge:600000});
+  var LoginID = req.cookies.LoginID;
+  if(LoginID == undefined) {
+    res.redirect("/users/login");
+  } else {
+    var listOrder = req.query.listOrder;
+    res.render("users/noticeDetail",{title:'公告内容',errMsg:'',listOrder:listOrder});
+  }
+
+});
+
+//视频网页
+router.get('/video',function(req,res,next){
+  res.render('users/video',{title:'视频网页',errMsg:''});
+});
+
 
 router.get('/register', function(req, res, next) {
   var errMsg = req.query.errMsg;

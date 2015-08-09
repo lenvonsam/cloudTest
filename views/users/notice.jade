@@ -1,0 +1,16 @@
+extends ../layout
+block content
+	body.main-container
+		.container-fluid
+			.list-group
+			if userSubType == 2 || userSubType == 3	
+				a.list-group-item(href="/users/noticeShow?listOrder=1") 班级公告
+			else if userSubType == 4 
+				a.list-group-item(href="/users/noticeShow?listOrder=1") 班级公告
+				a.list-group-item(href="/users/noticeShow?listOrder=2") 年级公告
+			else if userSubType == 5
+				a.list-group-item(href="/users/noticeShow?listOrder=1") 班级公告
+				a.list-group-item(href="/users/noticeShow?listOrder=2") 年级公告
+				a.list-group-item(href="/users/noticeShow?listOrder=3") 学校公告
+			else
+				a.list-group-item(href="javascript:(0)") 您没有权限发布公告

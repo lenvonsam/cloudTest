@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+	body.main-container
+		.container-fluid
+			form(action="/users/notice",method="post",enctype="multipart/form-data")
+				.error-info.font-normal #{errMsg}
+				.form-group
+					label 标题
+					input.form-control(name="user[title]")
+				.form-group
+					label 内容
+					textarea.form-control(rows="5",name="user[content]")
+					input(type="hidden",name="user[listOrder]",value="#{listOrder}")
+				button.btn.btn-warning.btn-corner 发布

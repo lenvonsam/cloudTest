@@ -89,6 +89,12 @@ getUrl = function(index) {
     case "3":
       return "/users/sender?currentPage=1";
       break;
+    case "4":
+      return "/users/notice";
+      break;
+    case "5":
+      return "/users/noticeShow";
+      break;
     default:
       return "/";
       break;

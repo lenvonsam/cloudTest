@@ -1,1 +1,0 @@
-$(function(){var o;return alert(window.localStorage?"This browser supports localStorage":"This browser does NOT support localStorage"),localStorage.a="123456",o=localStorage.a,alert(o)});
